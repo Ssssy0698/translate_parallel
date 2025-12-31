@@ -1,0 +1,25 @@
+环境安装
+pip install selenium webdriver-manager
+pip install webdriver-manager
+
+文件位置
+藏语语料放在/tibetan文件夹下面
+结果存放在/result文件夹下
+mkdir -p results logs
+
+运行
+# 测试单个文件
+python final_translate.py tibetan/1.json
+
+# 批量处理所有文件
+python batch_processor.py tibetan/ --workers 2
+
+# 跳过已处理文件
+python batch_processor.py tibetan/ --skip
+
+
+----------------------------------------------------
+以下信息不用管
+python final_translate.py tibetan/law.json
+conda activate GA_env
+
