@@ -1,0 +1,8 @@
+加载JSON文件: tibetan2/oral_amdo_1240.json, 句子数: 500
+文件类型: oral_amdo
+需要翻译的行数: 500
+初始文件已创建: results/oral_amdo_1240_result.json
+初始化翻译器...
+WebDriver初始化失败: tuple index out of range
+翻译过程出错: 无法初始化WebDriver
+错误: 没有生成任何条目
