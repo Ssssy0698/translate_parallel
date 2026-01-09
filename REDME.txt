@@ -19,7 +19,41 @@ python batch_processor.py tibetan/ --skip
 
 
 ----------------------------------------------------
-以下信息不用管
-python final_translate.py tibetan/law.json
-conda activate GA_env
 
+
+新增能用--direction chinese_to_tibetan 或 --direction tibetan_to_chinese命令行参数控制翻译方向的脚本
+运行
+# 测试单个文件
+#藏到汉（默认，不用--direction参数则默认为藏到汉）
+python final_translate.py tibetan/1.json --direction tibetan_to_chinese
+#汉到藏
+python final_translate.py tibetan/1.json --direction chinese_to_tibetan
+
+# 批量处理所有文件
+#藏到汉（默认，不用--direction参数则默认为藏到汉）
+python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction tibetan_to_chinese
+#汉到藏
+python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction chinese_to_tibetan
+#批量处理并跳过已处理文件
+python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction tibetan_to_chinese --skip
+
+脚本支持输入为txt或json格式文件
+1. TXT文件
+纯文本文件，每行一个句子
+空行会自动被过滤
+示例：
+	你好，今天天气很好。
+	我们一起去吃饭吧。
+	这是一个测试句子。
+	
+2. JSON文件
+需要特定的格式：
+json
+{
+  "type": "自定义类型",
+  "data": [
+    "句子1",
+    "句子2",
+    "句子3"
+  ]
+}
