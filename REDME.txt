@@ -57,3 +57,25 @@ json
     "句子3"
   ]
 }
+
+
+----------------------------------------------------
+
+任务放在后台运行
+#无日志
+nohup python batch_processor_direct_direction.py zh/ --workers 25 --direction chinese_to_tibetan > /dev/null  2>&1 &
+
+#有日志文件
+nohup python batch_processor_direct_direction.py zh/ --workers 25 --direction chinese_to_tibetan > log1.log  2>&1 &
+
+
+
+----------------------------------------------------
+# 1. 先终结主要的Python批处理进程
+kill 247693
+
+# 2. 终结所有chromedriver进程（包括僵尸进程）
+pkill -f "chromedriver"
+
+# 3. 终结所有chrome浏览器进程
+pkill -f "chrome"
