@@ -5,14 +5,13 @@ pip install webdriver-manager
 文件位置
 藏语语料放在/tibetan文件夹下面
 结果存放在/result文件夹下
-mkdir -p results logs
 
-运行
+运行藏翻汉
 # 测试单个文件
 python final_translate.py tibetan/1.json
 
 # 批量处理所有文件
-python batch_processor.py tibetan/ --workers 2
+python batch_processor.py tibetan/ --workers 20
 
 # 跳过已处理文件
 python batch_processor.py tibetan/ --skip
@@ -24,18 +23,18 @@ python batch_processor.py tibetan/ --skip
 新增能用--direction chinese_to_tibetan 或 --direction tibetan_to_chinese命令行参数控制翻译方向的脚本
 运行
 # 测试单个文件
-#藏到汉（默认，不用--direction参数则默认为藏到汉）
-python final_translate.py tibetan/1.json --direction tibetan_to_chinese
+#藏到汉
+python final_translate.py tibetan/1.json
 #汉到藏
-python final_translate.py tibetan/1.json --direction chinese_to_tibetan
+python final_translate_direction.py zh/1.json --direction chinese_to_tibetan
 
 # 批量处理所有文件
-#藏到汉（默认，不用--direction参数则默认为藏到汉）
-python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction tibetan_to_chinese
+#藏到汉
+python batch_processor_direct.py tibetan1/ --workers 20
 #汉到藏
-python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction chinese_to_tibetan
+python batch_processor_direct_direction.py zh/ --workers 20 --direction chinese_to_tibetan
 #批量处理并跳过已处理文件
-python batch_processor_direct_direction.py tibetan1/ --workers 20 --direction tibetan_to_chinese --skip
+python batch_processor_direct_direction.py zh/ --workers 20 --direction chinese_to_tibetan --skip
 
 脚本支持输入为txt或json格式文件
 1. TXT文件
@@ -79,3 +78,28 @@ pkill -f "chromedriver"
 
 # 3. 终结所有chrome浏览器进程
 pkill -f "chrome"
+
+
+----------------------------------------------------
+#脚本的作用
+#filter.py用于从中文语料中筛选出简短的语句用于汉到藏翻译
+python filter.py 中文语句.txt
+
+#txt2json.py用于将筛选出的中文语句.txt转为中文语句.json，方便后续用split.py将其拆分成小的json文件
+python txt2json 中文语句_filter.txt
+
+#split.py用于将大的数据json文件拆成小的json文件（仅支持拆分json文件）
+python split.py data.json 500    # 每条500条数据拆分
+
+#merge.py将翻译生成的小的平行语句对json文件合并为一个大的json文件
+python merge.py list   #查看当前可合并的文件
+
+#compare.py将两个json文件进行对比，保留差集 和 交集中命令行参数第一个文件的字段
+python compare.py oral_kham_001.json oral_kham_002.json
+
+#delete_c2t.py将汉到藏翻译结果文件夹下的所有json文件名称中的c2t删除，使得可以用merge.py合并
+python delete_c2t.py ./results
+
+#remove_status.py将汉到藏翻译结果文件夹下的所有json文件的status字段删除并调整json文件的结尾统计信息，使得可以用merge.py合并
+python remove_status.py ./results
+
