@@ -103,3 +103,6 @@ python delete_c2t.py ./results
 #remove_status.py将汉到藏翻译结果文件夹下的所有json文件的status字段删除并调整json文件的结尾统计信息，使得可以用merge.py合并
 python remove_status.py ./results
 
+#delete_empty.py删除合成的json文件中chinese或tibetan字段为""空的平行语句
+python delete_empty.py 1.json
+
